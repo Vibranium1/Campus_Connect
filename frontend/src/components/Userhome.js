@@ -160,9 +160,9 @@ const Userhome = () => {
 
                                {/* Profile Modal */}
       {isProfileModalOpen && (
-        <div className='fixed inset-1 overflow-y-auto flex items-center justify-center'>
+        <div className='fixed inset-1 overflow-y-auto flex items-center justify-center z-50'>
         <div className='fixed inset-0 bg-black bg-opacity-10'></div>
-        <div className='absolute top-4 right-4 bg-white p-10 rounded-lg z-10 ml-3'>
+        <div className='absolute top-4 right-4 bg-white p-10 rounded-lg z-50 ml-3'>
           <button
         className='text-gray-500 hover:text-gray-700 absolute top-2 right-2'
         onClick={() => closeProfileModal()}
@@ -180,21 +180,21 @@ const Userhome = () => {
 
 
             <h1 className='text-2xl font-bold m-3 ml-5'> User Info</h1>
-            <p>Name : {user?.user?.name}</p>
-            <p>RollNo : {user?.user?.rollnumber}</p>
-            <p>
+            <p className='mt-1'>Name : {user?.user?.name}</p>
+            <p className='mt-1'>RollNo : {user?.user?.rollnumber}</p>
+            <p className='mt-1'> 
              
                Email: {isEditing ? <input type='text' value={updatedEmail} onChange={(e) => setUpdatedEmail(e.target.value)} /> : user?.user?.email}
-              {isEditing && <button onClick={handleUpdateEmail} className='btn btn-success' >Update</button>}
+              {isEditing && <button onClick={handleUpdateEmail} style={{ backgroundColor: 'green', color: 'white', padding: '0px 8px', cursor: 'pointer', borderRadius: '4px'}} >Update</button>}
 
                 </p>
             <p>
 
                 Year: {isEditing ? <input type='text' value={updatedYear} onChange={(e) => setUpdatedYear(e.target.value)} /> : user?.user?.year}
-              {isEditing && <button onClick={handleUpdateYear} className='btn btn-success'>Update</button>}
+              {isEditing && <button onClick={handleUpdateYear} style={{ backgroundColor: 'green', color: 'white', padding: '0px 8px',marginTop: '2px', marginLeft: '5px', cursor: 'pointer', borderRadius: '4px' }} >Update</button>}
         
             </p>
-            <p>
+            <p className='mt-1'>
                 Department: {user?.user?.department}
             </p>
             

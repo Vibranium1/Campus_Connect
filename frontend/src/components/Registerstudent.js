@@ -4,8 +4,10 @@ import { years } from '../common/year';
 import { Link } from 'react-router-dom'
 import { member } from "../common/clubmember";
 import { toast, ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Registerstudent = () => {
+    const navigate = useNavigate();
     const [registrationData, setRegistrationData] = useState({});
     const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
     const [isClicked, setIsClicked] = useState(false);
@@ -217,6 +219,7 @@ const [selectedImage, setSelectedImage] = useState(null);
                         onClick={() => {
                             setIsClicked(true);
                             handleClick();
+                            navigate('/');
                         }}
                         disabled={isClicked}
                         className="w-full bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
