@@ -134,4 +134,25 @@ const deletePost = async (req, res) => {
   }
 };
 
-module.exports =  {createPost,createComment,getFeedPosts, getUserPosts, likePost,reportPost,deletePost};
+const deleteComment = async (req, res) => {
+  try {
+    const { postId, commentId } = req.params;
+    const post = await Post.findById(postId);
+
+    // Find the index of the comment with the given commentId
+    const commentIndex = post.comments.findIndex((comment) => comment._id == commentId);
+
+    // If the comment is found, remove it from the comments array
+    if (commentIndex !== -1) {
+      post.comments.splice(commentIndex, 1);
+      const updatedPost = await post.save();
+      res.status(200).json(updatedPost);
+    } else {
+      res.status(404).json({ message: 'Comment not found' });
+    }
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+};
+
+module.exports =  {createPost,createComment,getFeedPosts, getUserPosts, likePost,reportPost,deletePost,deleteComment};

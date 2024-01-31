@@ -26,6 +26,7 @@ import { useNavigate } from "react-router-dom";
 import FlexBetween from "../../components/FlexBetween";
 
 const Navbar = () => {
+  const [isSearchDropdownVisible, setIsSearchDropdownVisible] = useState(false);
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const [renderList, setRenderList] = useState([]);
   const [val, setVal] = useState('');
@@ -43,20 +44,30 @@ const Navbar = () => {
 
   const fullName = user ? `${user.name}` : '';
   useEffect(() => {
+    if (val.trim() === "") {
+      setRenderList([]);
+      return;
+    }
     fetch(`/searching/${val}`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt")
       }
     })
       .then((res) => {
-        if (res.status !== 200) {
-          return []
+        // if (res.status !== 200) {
+        //   return []
+        // }
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
         }
         return res.json()
       })
       .then((result) => {
         setRenderList(result);
       })
+      .catch((error) => {
+        console.error("Error fetching search results:", error);
+      });
   }, [val])
   console.log('hmya', renderList);
   return (
@@ -83,8 +94,11 @@ const Navbar = () => {
             gap="3rem"
             padding="0.1rem 1.5rem"
           >
-            <InputBase placeholder="Search..." onChange={(e) => setVal(e.target.value)} />
-            <IconButton className=" flex-col text-left absolute top-32 right-60 shadow-lg z-999999 bg-white h-10">
+            <InputBase  placeholder="Search..." onChange={(e) => {
+              setVal(e.target.value);
+              setIsSearchDropdownVisible(true);
+            }} />
+            {/* <IconButton className=" flex-col text-left absolute top-32 right-60 shadow-lg z-999999 bg-white h-10">
               
               <div className="flex-col">
                 {renderList?.map((ele, i) => {
@@ -96,8 +110,25 @@ const Navbar = () => {
                     </>)
                 })}
               </div>
+            </IconButton> */}
+            {isSearchDropdownVisible && renderList.length > 0 &&(
+            <IconButton
+              className="flex-col text-left absolute top-32 right-60 shadow-lg z-999999 bg-white h-10"
+              style={{ zIndex: 999999 }}
+            >
+              <div className="flex-col ">
+                {renderList?.map((ele, i) => (
+                  <p className="bg-white " key={i}>
+                    <Link to={`/profile/${ele._id}`} className="bg-gray-400">
+                      <p className="bg-white w-70 p-4">{ele.name}</p>
+                    </Link>
+                  </p>
+                ))}
+              </div>
             </IconButton>
-            
+          )}
+
+
           </FlexBetween>
         )}
       </FlexBetween>

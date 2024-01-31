@@ -81,6 +81,16 @@ const PostWidget = ({
     dispatch(setPost({ post: updatedPost }));
   };
 
+  const handleDeleteComment = async (commentId) => {
+    const response = await fetch(`http://localhost:7000/posts/${postId}/comments/${commentId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const updatedPost = await response.json();
+    dispatch(setPost({ post: updatedPost }));
+  };
   
   const handleComment = async () => {
     if (comment.trim() === "") {
@@ -195,8 +205,14 @@ console.log('rff',comments)
        
      /></a>
      <Typography sx={{ color: main, m: "0.5rem 0" , fontSize  : "16px" }}>
-       {comment.name}: {comment.comment}  <br  />  <Typography sx={{fontSize  : "12  px"}}> {comment.time}</Typography>
-     </Typography>
+       {comment.name}: {comment.comment} </Typography> <Typography sx={{color: main, fontSize  : "12  px", marginLeft:"190px"}}> {comment.time}</Typography>
+     {/* </Typography> */}
+     {comment.userId === loggedInUserId && (
+            <IconButton onClick={() => handleDeleteComment(comment._id)}>
+              <DeleteOutlined />
+            </IconButton>
+          )}
+
         <Divider />
       </Box>
     ))}
