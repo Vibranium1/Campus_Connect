@@ -17,6 +17,9 @@ const Userhome = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [updatedEmail, setUpdatedEmail] = useState('')
     const [updatedYear, setUpdatedYear] = useState('')
+    // console.log(user)
+    // console.log('User Picture URL:', user.user.picture);
+
 
 
     const handleUpdateEmail = async () => {
@@ -145,7 +148,7 @@ const Userhome = () => {
                         localStorage.clear();
                         navigate('/');
                     }}>Logout</button>
-                    <img className='h-10 ml-8 m-1' src='./profile.png'onClick={() => openProfileModal()} alt='archit is pro' />
+                    <img className='h-12 w-10 ml-8 mr-5 m-1 rounded-full object-cover' src={user.user.picture} onClick={() => openProfileModal()} alt='user image' />
                 </div>
             </div>
             <div className="h-screen text-white p-0">

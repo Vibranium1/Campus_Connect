@@ -41,7 +41,7 @@ const MyPostWidget = ({ picturePath }) => {
 
   const handlePost = async () => {
     const formData = new FormData();
-    console.log(_id, post)
+    // console.log(_id, post)
     formData.append("userId", _id);
     formData.append("description", post);
     if (image) {
@@ -55,7 +55,7 @@ const MyPostWidget = ({ picturePath }) => {
       body: formData,
     });
     const posts = await response.json();
-    console.log(posts) 
+    // console.log(posts) 
     dispatch(setPosts({ posts }));
     setImage(null);
     setPost("");
@@ -64,7 +64,7 @@ const MyPostWidget = ({ picturePath }) => {
   return (
     <WidgetWrapper>
       <FlexBetween gap="1.5rem">
-        <UserImage image={picturePath} />
+        <UserImage image={picturePath}/>
         <InputBase
           placeholder="What's on your mind..."
           onChange={(e) => setPost(e.target.value)}

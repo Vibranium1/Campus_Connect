@@ -4,7 +4,10 @@ import { years } from '../common/year';
 import { Link } from 'react-router-dom'
 import { member } from "../common/clubmember";
 import { toast, ToastContainer } from "react-toastify";
+import { Image, Transformation } from 'cloudinary-react';
 import { useNavigate } from "react-router-dom";
+
+const cloudinaryCloudName = 'campusconnect-rajdeep';
 
 const Registerstudent = () => {
     const navigate = useNavigate();
@@ -31,45 +34,78 @@ const [selectedImage, setSelectedImage] = useState(null);
 
     };
 
-    
-  
     const handleImageChange = (e) => {
-      const file = e.target.files[0];
-    //   console.log('file',file)
-      setSelectedImage(file);
-      setImageName(file.name); // Set the image name in the state
+        const file = e.target.files[0];
+        setSelectedImage(file);
+        setImageName(file.name);
     };
+  
+    // const handleImageChange = (e) => {
+    //   const file = e.target.files[0];
+    // //   console.log('file',file)
+    //   setSelectedImage(file);
+    //   setImageName(file.name); // Set the image name in the state
+    // };
+
+    const handleCloudinaryUpload = () => {
+        if (!selectedImage) {
+            return Promise.resolve(null);
+        }
+
+        const formData = new FormData();
+        formData.append('file', selectedImage);
+        formData.append('upload_preset', 'userimage'); // Replace with your Cloudinary upload preset
+
+        return fetch(`https://api.cloudinary.com/v1_1/${cloudinaryCloudName}/image/upload`, {
+            method: 'POST',
+            body: formData,
+        })
+            .then(response => response.json())
+            .then(data => data.secure_url)
+            .catch(error => {
+                console.error('Error uploading image to Cloudinary:', error);
+                return null;
+            });
+    };
+
+
+
     useEffect(() => {
         setRegistrationData((prevData) => ({
             ...prevData,
             club: selectedCheckboxes,
         }));
     }, [selectedCheckboxes])
-    const handleClick = () => {
-        // setRegistrationData({ ...registrationData, club: selectedCheckboxes });
-        // console.log('sss',selectedCheckboxes)
-        // setRegistrationData((prevData) => ({
-        //     ...prevData,
-        //     club: selectedCheckboxes,
-        // }));
-        // console.log('srag', registrationData)
-        // console.log('aer', selectedCheckboxes)
-        if(!(registrationData?.name && registrationData?.department && registrationData?.year && registrationData?.email && registrationData?.password)) {
-            toast.error('complete the form');
-        }console.log(selectedImage)
-        // if(selectedImage) {
-        //     console.log('hitted')
-        //     setRegistrationData({ ...registrationData, picture: selectedImage, picturePath: imageName });
-        // }
-        console.log(registrationData)
-    //     formData.append("picture", image);
-    //   formData.append("picturePath", image.name);
+    // const handleClick = () => {
+     
+    //     if(!(registrationData?.name && registrationData?.department && registrationData?.year && registrationData?.email && registrationData?.password)) {
+    //         toast.error('complete the form');
+    //     }console.log(selectedImage)
+        
+    //     console.log(registrationData)
+
+    const handleClick = async () => {
+        if (!(registrationData?.name && registrationData?.department && registrationData?.year && registrationData?.email && registrationData?.password)) {
+            toast.error('Complete the form');
+            return;
+        }
+
+        const imageUrl = await handleCloudinaryUpload();
+
+        const userData = {
+            ...registrationData,
+            club: selectedCheckboxes,
+            picture: imageUrl,
+            picturePath: imageName,
+        };
+   
         fetch("/register", {
             method: "post",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(registrationData)
+            // body: JSON.stringify(registrationData)
+            body: JSON.stringify(userData),
         })
             .then(res => res.json())
             .then((data) => {
@@ -202,6 +238,28 @@ const [selectedImage, setSelectedImage] = useState(null);
                         img:
                         <input type="file" onChange={handleImageChange} />
                     </div> */}
+                   
+                     <div>
+                <input type="file" onChange={handleImageChange} />
+                
+                {/* {selectedImage && (
+                    <div> */}
+                        {/* <Image cloudName={cloudinaryCloudName} publicId={imageName} width="150" height="150" crop="fill">
+                            <Transformation quality="auto" fetchFormat="auto" />
+                        </Image> */}
+                         {/* <img
+                             src={`https://res.cloudinary.com/${cloudinaryCloudName}/image/upload/userimages/${imageName}`}
+                             alt="Preview"
+                             width="150"
+                             height="150"
+        /> */}           
+                       {/* <Image cloudName={cloudinaryCloudName} publicId={`userimages/${imageName}`} width="150" height="150" crop="fill">
+                            <Transformation quality="auto" fetchFormat="auto" />
+                        </Image> */}
+                    {/* </div>
+                     )} */}
+                     </div>
+
                     <div className="mb-4">
                         <label className="block mb-2 text-sm font-medium text-gray-800">
                             Password

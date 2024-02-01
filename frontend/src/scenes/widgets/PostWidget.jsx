@@ -119,7 +119,7 @@ const PostWidget = ({
       window.location.reload();
     }, 1000); // reload after 1 second (adjust as needed)
   };
-console.log('rff',comments)
+// console.log('rff',comments)
   return (
     <WidgetWrapper m="2rem 0">
       <Friend

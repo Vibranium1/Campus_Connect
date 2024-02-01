@@ -64,6 +64,7 @@ const UserWidget = ({ userId, picturePath }) => {
     occupation,
     viewedProfile,
     department,
+    picture,
     year,
     impressions,
     friends,

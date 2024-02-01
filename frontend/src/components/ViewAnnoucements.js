@@ -1,21 +1,24 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ReactQuill from 'react-quill';
 import Groupchat from './Groupchat';
 import { IconButton, Typography } from '@mui/material';
-import { FavoriteBorderOutlined, FavoriteOutlined } from '@mui/icons-material';
+import { FavoriteBorderOutlined, FavoriteOutlined, DeleteOutlined } from '@mui/icons-material';
 const ViewAnnoucements = ({ club, showChat, setShowChat }) => {
-    // console.log('state?', showChat);
+
     const user = JSON.parse(localStorage.getItem('user'));
+    const isAdmin = user?.user?.name?.toLowerCase().includes('admin');
+    // console.log(user)
+    // console.log('isAdmin:', isAdmin);
     const [annouce, setAnnouce] = useState([]);
     useEffect(() => {
         setShowChat(false);
     }, []);
     
     useEffect(() => {
-        console.log('inn')
+        // console.log('inn')
         fetch('/getblog', {
             method: 'post',
             headers: {
@@ -29,7 +32,7 @@ const ViewAnnoucements = ({ club, showChat, setShowChat }) => {
         })
             .then(res => res.json())
             .then((result) => {
-                console.log('change')
+                // console.log('change')
                 setAnnouce(result)
             })
     }, [club]);
@@ -55,7 +58,7 @@ const ViewAnnoucements = ({ club, showChat, setShowChat }) => {
 
   if (result.success) {
     // Reload announcements or update state as needed
-    console.log('Like added or removed successfully');
+    // console.log('Like added or removed successfully');
     setAnnouce(prevAnnouncements => {
         return prevAnnouncements.map(announcement => {
             if (announcement._id === announcementId) {
@@ -80,12 +83,35 @@ console.error('Error toggling like:', error.message);
 }
 };  
 
+ 
+const handleDelete = async (announcementId) => {
+    try {
+      const response = await fetch(`/api/blog/delete/${announcementId}`, {
+        method: 'DELETE',
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setAnnouce((prevAnnouncements) =>
+          prevAnnouncements.filter((announcement) => announcement._id !== announcementId)
+        );
+
+        toast.success('Announcement deleted successfully');
+      } else {
+        toast.error('Error deleting announcement');
+      }
+    } catch (error) {
+      console.error('Error deleting announcement:', error.message);
+      toast.error('Error deleting announcement');
+    }
+  };
 
 
     const modules = {
         toolbar: false, // Hide the toolbar
     };
-    console.log('clubya4321', club, annouce)
+    // console.log('clubya4321', club, annouce)
     return (
         <div className=' text-black m-8 font-semibold border-2 rounded-md'>
              <ToastContainer />
@@ -108,6 +134,16 @@ console.error('Error toggling like:', error.message);
                             )}
                         </IconButton>
                         <Typography style={{ fontSize: '16px' }} variant="subtitle1">{ele.likes.length} </Typography>
+                        {/* {user?.user?.isAdmin && (
+                            <IconButton onClick={() => handleDelete(ele._id)}>
+                             <DeleteOutlined />
+                             </IconButton>
+                  )} */}
+                     {isAdmin && (
+                     <IconButton   style={{ marginLeft: '450px' }}  onClick={() => handleDelete(ele._id)}>
+                         <DeleteOutlined />
+                     </IconButton>
+)}
                         </div>
                   
                         </div>

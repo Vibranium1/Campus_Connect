@@ -7,7 +7,7 @@ import PostsWidget from "../../scenes/widgets1/PostsWidget";
 
 const AdminPage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
-  const { _id, picturePath } = useSelector((state) => state.user);
+  const { _id, picturePath, picture } = useSelector((state) => state.user);
 
   return (
     <Box>
@@ -20,7 +20,7 @@ const AdminPage = () => {
         justifyContent="space-between"
       >
         <Box flexBasis={isNonMobileScreens ? "26%" : undefined}>
-          <UserWidget userId={_id} picturePath={picturePath} />
+          <UserWidget userId={_id} picturePath={picture} />
         </Box>
         <Box
           flexBasis={isNonMobileScreens ? "42%" : undefined}

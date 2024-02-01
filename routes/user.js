@@ -78,7 +78,7 @@ router.post('/signin', async (req, res) => {
             }
         }
         else {
-            console.log('rgfg')
+            // console.log('rgfg')
             const user = await Admin.findOne({ rollnumber: rollnumber });
             if (user) {
                 if (user.password === password) {
@@ -94,7 +94,7 @@ router.post('/signin', async (req, res) => {
         }
     }
     catch (e) {
-        console.log('error occured', e);
+        // console.log('error occured', e);
     }
 });
 

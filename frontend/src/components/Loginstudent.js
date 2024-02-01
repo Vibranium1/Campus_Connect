@@ -32,7 +32,12 @@ const Registerstudent = () => {
                 }
                 if (data?.user) {
                     localStorage.setItem("user", JSON.stringify({ user: data.user }));
-                    navigate('/user-home');
+                    toast.success('Signed in Successfully');
+                    // navigate('/user-home');
+                    setTimeout(() => {
+                        navigate('/user-home');
+                    }, 1000);
+                    
                 }
                 if(data?.message) {
                     // console.log('hello')
@@ -49,7 +54,7 @@ const Registerstudent = () => {
                     {/* <p className="mt-2">LOgin vaiiii</p> */}
                 </div>
                 <div className="p-6 space-y-4">
-<ToastContainer/>
+                <ToastContainer/>
                     <div className="mb-4">
                         <label className="block mb-2 text-sm font-medium text-gray-800">
                             Roll number

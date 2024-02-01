@@ -69,7 +69,7 @@ const Navbar = () => {
         console.error("Error fetching search results:", error);
       });
   }, [val])
-  console.log('hmya', renderList);
+  // console.log('hmya', renderList);
   return (
     <FlexBetween padding="1rem 6%" backgroundColor={alt}>
       <FlexBetween gap="1.75rem">

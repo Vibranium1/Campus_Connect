@@ -9,7 +9,7 @@ router.post('/api/blog', async (req, res) => {
   newAnnouncement
     .save()
     .then(post => {
-      console.log(post)
+      // console.log(post)
       res.json({ success: true, post });
     })
     .catch(err => {
@@ -22,7 +22,7 @@ router.post('/api/blog', async (req, res) => {
 
 router.post('/getblog', async (req, res) => {
   const { department, year, club, likes } = req.body;
-  console.log('dept ', department)
+  // console.log('dept ', department)
   let newAnnouncements;
   if(department)
   newAnnouncements = await Announcement.find({
@@ -33,7 +33,7 @@ router.post('/getblog', async (req, res) => {
   });
   
   else {
-    console.log('m here')
+    // console.log('m here')
     newAnnouncements = await Announcement.find({
       club,
       deadline: { $gt: new Date() }
@@ -79,5 +79,24 @@ router.post('/api/blog/like/:announcementId', async (req, res) => {
   }
 });
 
+
+router.delete('/api/blog/delete/:announcementId', async (req, res) => {
+  const { announcementId } = req.params;
+  console.log(announcementId)
+
+  try {
+    const result = await Announcement.deleteOne({ _id: announcementId });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ success: false, message: 'Announcement not found' });
+    }
+
+
+  return res.json({ success: true, message: 'Announcement deleted successfully' });
+} catch (err) {
+  console.error(err);
+  return res.status(500).json({ success: false, message: 'Error deleting announcement' });
+}
+});
 
 module.exports = router;

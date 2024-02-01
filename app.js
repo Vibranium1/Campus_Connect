@@ -81,7 +81,7 @@ app.get("/all-group-messages", async (req, res) => {
 
 app.post('/register', upload.single("picture"), async (req, res) => {
   try {
-      console.log('data is', req.body);
+      // console.log('data is', req.body);
       const newUser = await new User({
           ...req.body,
       });
@@ -103,7 +103,7 @@ app.get('/searching/:enterName', (req, res) => {
   User.find({ name: { $regex: userPattern } })
       .select("_id name")
       .then(user => {
-          console.log(user)
+          // console.log(user)
           if(user.length === 0) {
               return res.status(400).json(user);
           }

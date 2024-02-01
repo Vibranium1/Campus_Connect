@@ -28,7 +28,7 @@ const ProfilePage = () => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!user) return null;
-
+console.log('xzfdgz', user.picture)
   return (
     <Box>
       <Navbar />
@@ -40,7 +40,7 @@ const ProfilePage = () => {
         justifyContent="center"
       >
         <Box flexBasis={isNonMobileScreens ? "26%" : undefined}>
-          <UserWidget userId={userId} picturePath={user.picturePath} />
+          <UserWidget userId={userId} picturePath={user.picture} />
           <Box m="2rem 0" />
           <FriendListWidget userId={userId} />
         </Box>
