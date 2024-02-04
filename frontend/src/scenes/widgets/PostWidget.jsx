@@ -34,6 +34,7 @@ const PostWidget = ({
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
   const loggedInUserId = useSelector((state) => state.user._id);
+  const loggedInpicture = useSelector((state) => state.user.picture);
   const loggedInname = useSelector((state) => state.user.name);
   const loggedInpicturePath = useSelector((state) => state.user.picturePath);
 
@@ -104,7 +105,7 @@ const PostWidget = ({
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({  comment : comment , userId: loggedInUserId , name : loggedInname , picturePath : loggedInpicturePath , time : timed}),
+      body: JSON.stringify({  comment : comment , userId: loggedInUserId , name : loggedInname , picturePath : loggedInpicture , time : timed}),
     });
     const updatedPost = await response.json();
     dispatch(setPost({ post: updatedPost }));
@@ -120,6 +121,7 @@ const PostWidget = ({
     }, 1000); // reload after 1 second (adjust as needed)
   };
 // console.log('rff',comments)
+  // console.log(picturePath)
   return (
     <WidgetWrapper m="2rem 0">
       <Friend
@@ -140,7 +142,7 @@ const PostWidget = ({
           
           alt="post"
           style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-          src={`http://localhost:7000/assets/${picturePath}`}
+          src={picturePath}
         />
       )}
       <FlexBetween mt="0.25rem">
@@ -198,10 +200,10 @@ const PostWidget = ({
    <Box key={`${name}-${i}`} display="flex" alignItems="center" mb="1rem">
      <a href={`/profile/${comment.userId}`}>
      <img
-       src={`http://localhost:7000/assets/${comment.picturePath}`}
-       alt=""
-       style={{ objectFit: "cover", borderRadius: "50%", marginRight: "0.5rem" }}
-       width={"40px"}
+       src={comment.picturePath}
+       alt="userpic"
+      style={{ objectFit: "cover",overflow: "hidden",width: "60px",
+      height: "60px", borderRadius: "50%", marginRight: "0.5rem" }}
        
      /></a>
      <Typography sx={{ color: main, m: "0.5rem 0" , fontSize  : "16px" }}>

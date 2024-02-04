@@ -17,17 +17,23 @@ import {
   IconButton,
   useMediaQuery,
 } from "@mui/material";
+// import { Image } from 'cloudinary-react';
 import FlexBetween from "../../components/FlexBetween";
 import Dropzone from "react-dropzone";
 import UserImage from "../../components/UserImage";
 import WidgetWrapper from "../../components/WidgetWrapper";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "state";
+
+
+const cloudinaryCloudName = 'campusconnect-rajdeep';
 
 const MyPostWidget = ({ picturePath }) => {
   const dispatch = useDispatch();
   const [isImage, setIsImage] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [imageName, setImageName] = useState('');
   const [image, setImage] = useState(null);
   const [post, setPost] = useState("");
   const { palette } = useTheme();
@@ -36,26 +42,42 @@ const MyPostWidget = ({ picturePath }) => {
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const mediumMain = palette.neutral.mediumMain;
   const medium = palette.neutral.medium;
-
-  // const { _id } = useSelector((state) => state.user);
-
+   
   const handlePost = async () => {
     const formData = new FormData();
-    // console.log(_id, post)
     formData.append("userId", _id);
     formData.append("description", post);
+    let postpicturePath = '';
     if (image) {
-      formData.append("picture", image);
-      formData.append("picturePath", image.name);
+      formData.append("file", image); // Assuming your image file is stored in 'image'
+      formData.append("upload_preset", "postimage"); // Replace 'your_upload_preset' with your Cloudinary upload preset
+      const cloudinaryResponse = await fetch(`https://api.cloudinary.com/v1_1/${cloudinaryCloudName}/image/upload`, {
+        method: "POST",
+        body: formData
+      });
+      if (!cloudinaryResponse.ok) {
+        console.error('Cloudinary Upload Error:', cloudinaryResponse.status, cloudinaryResponse.statusText);
+        // Handle Cloudinary upload error (send an appropriate response to the client)
+        return;
+      }
+      const cloudinaryData = await cloudinaryResponse.json();
+      postpicturePath = cloudinaryData.secure_url; // Assuming Cloudinary returns the URL of the uploaded image
+     
+      formData.append("picturePath", postpicturePath);
     }
 
-    const response = await fetch(`http://localhost:7000/posts`, {
+    const postsResponse = await fetch(`http://localhost:7000/posts`, {
       method: "POST",
-      headers: { Authorization: `Bearer ${token}` },
-      body: formData,
+      headers: { Authorization: `Bearer ${token}`,  "Content-Type": "application/json", },
+      body: JSON.stringify({
+        userId:_id,
+        description:post,
+        picturePath:postpicturePath,
+      }),
+        //  body:formData
     });
-    const posts = await response.json();
-    // console.log(posts) 
+    const posts = await postsResponse.json();
+    console.log(posts) 
     dispatch(setPosts({ posts }));
     setImage(null);
     setPost("");

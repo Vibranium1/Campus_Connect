@@ -10,12 +10,12 @@ const User = require ("../modals/user")
 const createPost = async (req, res) => {
   try {
     const { userId, description, picturePath } = req.body;
-    // console.log('create[pst', req.body)
+    // console.log('from controller posts', req.body)
+    // console.log("posts se",userId)
     const user = await User.findById(userId);
     const newPost = new Post({
       userId,
       name: user.name,
-      location: user.location,
       description,
       userPicturePath: user.picture,
       picturePath,

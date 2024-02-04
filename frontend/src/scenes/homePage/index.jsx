@@ -16,6 +16,7 @@ const HomePage = () => {
   // const { _id, picturePath } = useSelector((state) => state.user);
   const userval = JSON.parse(localStorage.getItem('user'));
   const userdata = userval.user;
+  console.log(userdata)
   const mylogin = async () => {
     const loggedInResponse = await fetch("http://localhost:7000/auth/login", {
       method: "POST",
@@ -40,6 +41,7 @@ const HomePage = () => {
   const user = useSelector((state) => state.user);
   const userId = user?._id; 
   const { _id, picturePath } = user || {};
+  console.log("from home",user)
   return (
     <Box>
       <Navbar />

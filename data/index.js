@@ -13,26 +13,13 @@ const userIds = [
 ];
 
 const users = [
-  {
-    _id: userIds[0],
-    name: "test",
-    email: "aaaaaaa@gmail.com",
-    password: "$2b$10$dsasdgsagasda//G9JxQ4bQ8KXf4OAIe/X/AK9skyWUy",
-    picturePath: "p11.jpeg",
-    friends: [],
-    location: "San Fran, CA",
-    occupation: "Software Engineer",
-    viewedProfile: 14561,
-    impressions: 888822,
-    createdAt: 1115211422,
-    updatedAt: 1115211422,
-    __v: 0,
-  },
+
   {
     _id: userIds[1],
     name: "Steve",
     email: "thataaa@gmail.com",
     password: "$!FEAS@!O)_IDJda//G9JxQ4bQ8KXf4OAIe/X/AK9skyWUy",
+    picture:"https://res.cloudinary.com/campusconnect-rajdeep/image/upload/v1706970286/userimages/p3_sfvotq.jpg",
     picturePath: "p3.jpeg",
     friends: [],
     location: "New York, CA",
@@ -49,6 +36,7 @@ const users = [
     email: "someguy@gmail.com",
     password: "da39a3ee5e6b4b0d3255bfef95601890afd80709",
     picturePath: "p4.jpeg",
+    picture: "https://res.cloudinary.com/campusconnect-rajdeep/image/upload/v1706972206/userimages/p4_kge0fe.jpg",
     friends: [],
     location: "Canada, CA",
     occupation: "Data Scientist Hacker",
@@ -63,6 +51,7 @@ const users = [
     name: "Whatcha",
     email: "whatchadoing@gmail.com",
     password: "$2b$10$dsasdgsagasda//G9JxQ4bQ8KXf4OAIe/X/AK9skyWUy",
+    picture:"https://res.cloudinary.com/campusconnect-rajdeep/image/upload/v1706970145/userimages/p6_i5qixb.jpg",
     picturePath: "p6.jpeg",
     friends: [],
     location: "Korea, CA",
@@ -78,6 +67,7 @@ const users = [
      name: "Jane",
     email: "janedoe@gmail.com",
     password: "$2b$10$dsasdgsagasda//G9JxQ4bQ8KXf4OAIe/X/AK9skyWUy",
+    picture:"https://res.cloudinary.com/campusconnect-rajdeep/image/upload/v1706969982/userimages/p5_baq10z.jpg",
     picturePath: "p5.jpeg",
     friends: [],
     location: "Utah, CA",
@@ -94,6 +84,7 @@ const users = [
     email: "harveydunn@gmail.com",
     password: "$2b$10$dsasdgsagasda//G9JxQ4bQ8KXf4OAIe/X/AK9skyWUy",
     picturePath: "p7.jpeg",
+    picture:"https://res.cloudinary.com/campusconnect-rajdeep/image/upload/v1706969862/userimages/p7_itdcsz.jpg",
     friends: [],
     location: "Los Angeles, CA",
     occupation: "Journalist",
@@ -108,6 +99,7 @@ const users = [
     name: "Carly",
     email: "carlyvowel@gmail.com",
     password: "$2b$10$dsasdgsagasda//G9JxQ4bQ8KXf4OAIe/X/AK9skyWUy",
+    picture:"https://res.cloudinary.com/campusconnect-rajdeep/image/upload/v1706969556/userimages/p8_hw1s0y.jpg",
     picturePath: "p8.jpeg",
     friends: [],
     location: "Chicago, IL",
@@ -123,6 +115,7 @@ const users = [
      name: "Jessica",
     email: "jessicadunn@gmail.com",
     password: "$2b$10$dsasdgsagasda//G9JxQ4bQ8KXf4OAIe/X/AK9skyWUy",
+    picture:"https://res.cloudinary.com/campusconnect-rajdeep/image/upload/v1706934516/userimages/p9_uqtziu.jpg",
     picturePath: "p9.jpeg",
     friends: [],
     location: "Washington, DC",
@@ -133,21 +126,7 @@ const users = [
     updatedAt: 1359322268,
     __v: 0,
   },
-  {
-    _id: userIds[8],
-    name: "Admin",
-    email: "admin@gmail.com",
-    password: "$2b$10$KOOHnKxsNYSymllieTOZJepvJ0R/R3kSW4ORKd4G8GNEOHtOTzPbm",
-    picturePath: "p11.jpeg",
-    friends: [],
-    location: "Kerala",
-    occupation: "Admin",
-    viewedProfile: 19420,
-    impressions: 82970,
-    createdAt: 1369908044,
-    updatedAt: 1359322268,
-    __v: 0,
-  },
+
 ];
 
 const posts = [
@@ -157,8 +136,8 @@ const posts = [
     name: "Steve",
     location: "New York, CA",
     description: "Some really long random description",
-    picturePath: "post1.jpeg",
-    userPicturePath: "p3.jpeg",
+    picturePath: "https://res.cloudinary.com/campusconnect-rajdeep/image/upload/v1707037267/postimages/post1_hn2qhl.jpg",
+    userPicturePath: "https://res.cloudinary.com/campusconnect-rajdeep/image/upload/v1706970286/userimages/p3_sfvotq.jpg",
     likes: new Map([
       [userIds[0], true],
       [userIds[2], true],
@@ -179,8 +158,8 @@ const posts = [
     location: "Korea, CA",
     description:
       "Another really long random description. This one is longer than the previous one.",
-    picturePath: "post2.jpeg",
-    userPicturePath: "p6.jpeg",
+    picturePath: "https://res.cloudinary.com/campusconnect-rajdeep/image/upload/v1707037378/postimages/post2_ufsrpf.jpg",
+    userPicturePath: "https://res.cloudinary.com/campusconnect-rajdeep/image/upload/v1706970145/userimages/p6_i5qixb.jpg",
     likes: new Map([
       [userIds[7], true],
       [userIds[4], true],
@@ -201,8 +180,8 @@ const posts = [
     location: "Utah, CA",
     description:
       "This is the last really long random description. This one is longer than the previous one.",
-    picturePath: "post3.jpeg",
-    userPicturePath: "p5.jpeg",
+    picturePath: "https://res.cloudinary.com/campusconnect-rajdeep/image/upload/v1707037477/postimages/post3_gy2tlz.jpg",
+    userPicturePath: "https://res.cloudinary.com/campusconnect-rajdeep/image/upload/v1706969982/userimages/p5_baq10z.jpg",
     likes: new Map([
       [userIds[1], true],
       [userIds[6], true],
@@ -223,8 +202,8 @@ const posts = [
     location: "Los Angeles, CA",
     description:
       "This is the last really long random description. This one is longer than the previous one. Man I'm bored. I'm going to keep typing until I run out of things to say.",
-    picturePath: "post4.jpeg",
-    userPicturePath: "p7.jpeg",
+    picturePath: "https://res.cloudinary.com/campusconnect-rajdeep/image/upload/v1707038317/postimages/post9_fhszkn.jpg",
+    userPicturePath: "https://res.cloudinary.com/campusconnect-rajdeep/image/upload/v1706969862/userimages/p7_itdcsz.jpg",
     likes: new Map([
       [userIds[1], true],
       [userIds[6], true],
@@ -244,8 +223,8 @@ const posts = [
     location: "Chicago, IL",
     description:
       "Just a short description. I'm tired of typing. I'm going to play video games now.",
-    picturePath: "post5.jpeg",
-    userPicturePath: "p8.jpeg",
+    picturePath: "https://res.cloudinary.com/campusconnect-rajdeep/image/upload/v1707037862/postimages/post5_tzpc5u.jpg",
+    userPicturePath: "https://res.cloudinary.com/campusconnect-rajdeep/image/upload/v1706969556/userimages/p8_hw1s0y.jpg",
     likes: new Map([
       [userIds[1], true],
       [userIds[3], true],
@@ -267,8 +246,8 @@ const posts = [
     location: "Washington, DC",
     description:
       "For the last time, I'm going to play video games now. I'm tired of typing. I'm going to play video games now.",
-    picturePath: "post6.jpeg",
-    userPicturePath: "p9.jpeg",
+    picturePath: "https://res.cloudinary.com/campusconnect-rajdeep/image/upload/v1707037863/postimages/post6_mej5hu.jpg",
+    userPicturePath: "https://res.cloudinary.com/campusconnect-rajdeep/image/upload/v1706934516/userimages/p9_uqtziu.jpg",
     likes: new Map([
       [userIds[1], true],
       [userIds[2], true],

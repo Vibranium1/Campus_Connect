@@ -38,12 +38,15 @@ const Post = require("./modals/Post.js")
 // import Post from "./modals/Post.js";
 // import { users, posts } from "./data/index.js";
 const  { users, posts } = require("./data/index.js")
+const cloudinary = require('cloudinary').v2;
 
 
-/* CONFIGURATIONS */
-// const _filename = fileURLToPath('import.meta.url');
-// const __dirname = path.dirname(_filename);
-// const __dirname = path.dirname('_filename');
+cloudinary.config({
+  cloud_name: 'campusconnect-rajdeep',
+  api_key: '113794327591269',
+  api_secret: 'GrSUvqwxNSEknjgzIfaeuLTenoQ',
+});
+
 dotenv.config();
 app.use(express.json());
 app.use(helmet());
@@ -52,22 +55,9 @@ app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
-app.use("/assets", express.static(path.join(__dirname, "public/assets")));
+// app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 
-/* FILE STORAGE */
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "public/assets");
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname);
-  },
-});
- const upload = multer({ storage });
-
-app.post("/auth/register", upload.single("picture"), register);
-app.post("/posts",  upload.single("picture"), createPost); // last commented please look ..
 app.get("/all-group-messages", async (req, res) => {
   const { club } = req.query;
   try {
@@ -79,9 +69,11 @@ app.get("/all-group-messages", async (req, res) => {
   }
 });
 
-app.post('/register', upload.single("picture"), async (req, res) => {
+app.post("/posts",   createPost);
+
+app.post('/register',  async (req, res) => {
   try {
-      // console.log('data is', req.body);
+      console.log('data is', req.body);
       const newUser = await new User({
           ...req.body,
       });

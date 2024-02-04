@@ -98,7 +98,7 @@ const [selectedImage, setSelectedImage] = useState(null);
             picture: imageUrl,
             picturePath: imageName,
         };
-   
+         console.log(userData)
         fetch("/register", {
             method: "post",
             headers: {
