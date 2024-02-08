@@ -114,7 +114,7 @@ const handleDelete = async (announcementId) => {
     // console.log('clubya4321', club, annouce)
     return (
         <div className=' text-black m-8 font-semibold border-2 rounded-md'>
-             <ToastContainer />
+             <ToastContainer position="top-right" autoClose={2000} hideProgressBar={false} />
             {!showChat && annouce.map((ele, i) => {
                 if (ele?.isPrivate === false) {
                     // console.log(ele)

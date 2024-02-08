@@ -3,6 +3,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // import styles
 import axios from 'axios';
 import { years } from '../common/year';
+import { ToastContainer, toast } from 'react-toastify';
 import { depts } from '../common/departments';
 import { member } from '../common/clubmember';
 const BASE_URL = 'http://localhost:7000';
@@ -22,6 +23,7 @@ const Announcement = () => {
       .then(response => {
         if (response.data.success) {
           // console.log('Blog post saved successfully:', response.data.post);
+          toast.success('Announcement posted successfully!');
         } else {
           console.error('Error saving blog post:', response.data.message);
         }
@@ -77,6 +79,9 @@ const Announcement = () => {
           onChange={handleEditorChange}
           modules={modules}
           formats={formats}
+          style={{
+              color: '#000', // Set the default text color to black
+          }}
           theme="snow"
         />
       </div>
@@ -144,6 +149,7 @@ const Announcement = () => {
         handleSaveClick();
       }}
         disabled={isClicked}>Post Announcement</button>
+        <ToastContainer position="top-right" autoClose={2000} hideProgressBar={false} />
         </div>
     </>
   );

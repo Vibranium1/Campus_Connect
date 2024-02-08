@@ -112,7 +112,7 @@ const [selectedImage, setSelectedImage] = useState(null);
             }).catch(err => console.log(err))
     }
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <div className="min-h-screen flex items-center justify-center bg-gray-100 p-5 ">
             <div className="max-w-md w-full bg-white rounded-lg shadow-lg overflow-hidden">
                 <div className="bg-indigo-600 text-white py-4 px-6">
                     <h2 className="text-3xl font-extrabold">Register</h2>
@@ -238,26 +238,13 @@ const [selectedImage, setSelectedImage] = useState(null);
                         img:
                         <input type="file" onChange={handleImageChange} />
                     </div> */}
-                   
-                     <div>
+                        
+                     <div className="mb-4">
+                     <label className="block mb-2 text-sm font-medium text-gray-800">
+                            Profile Picture
+                        </label>
                 <input type="file" onChange={handleImageChange} />
-                
-                {/* {selectedImage && (
-                    <div> */}
-                        {/* <Image cloudName={cloudinaryCloudName} publicId={imageName} width="150" height="150" crop="fill">
-                            <Transformation quality="auto" fetchFormat="auto" />
-                        </Image> */}
-                         {/* <img
-                             src={`https://res.cloudinary.com/${cloudinaryCloudName}/image/upload/userimages/${imageName}`}
-                             alt="Preview"
-                             width="150"
-                             height="150"
-        /> */}           
-                       {/* <Image cloudName={cloudinaryCloudName} publicId={`userimages/${imageName}`} width="150" height="150" crop="fill">
-                            <Transformation quality="auto" fetchFormat="auto" />
-                        </Image> */}
-                    {/* </div>
-                     )} */}
+        
                      </div>
 
                     <div className="mb-4">

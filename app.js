@@ -8,6 +8,7 @@ require('./modals/user.js');
 require('./modals/announcement.js');
 require('./modals/admin.js');
 require('./modals/chat.js');
+require('./modals/Club.js');
 // import bodyParser from "body-parser";
 const bodyParser = require('body-parser') 
 // import multer from "multer";

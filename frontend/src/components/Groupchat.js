@@ -33,28 +33,40 @@ const Groupchat = ({ club }) => {
 
 
 
-  const handleMessages = useCallback(({ message, senderId, senderName }) => {
-    setMessages((prevMessages) => [...prevMessages, { message, senderId, senderName }]);
-    console.log('msg', messages);
-  }, []);
-  useEffect(() => {
-    socket.on("message", handleMessages);
-    return () => {
-      socket.off("message", handleMessages);
-    };
-  }, [socket, handleMessages]);
+  // const handleMessages = useCallback(({ message, senderId, senderName, createdAt }) => {
+  //   setMessages((prevMessages) => [...prevMessages, { message, senderId, senderName, createdAt }]);
+  //   console.log('msg', messages);
+  // }, []);
+  // useEffect(() => {
+  //   socket.on("message", handleMessages);
+  //   return () => {
+  //     socket.off("message", handleMessages);
+  //   };
+  // }, [socket, handleMessages]);
 
 
 
 
   const sendMessage = () => {
+    const senderId = JSON.parse(localStorage.getItem("user"))._id;
     socket.emit("message", {
       message: inputValue,
       senderId: userId,
       senderName: userName,
       club: club,
-      // createdAt: new Date().toISOString(),
+      createdAt: new Date().toISOString(),
     });
+
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      {
+        message: inputValue,
+        senderId: userId,
+        senderName: userName,
+        createdAt: new Date().toISOString(),
+      },
+    ]);
+  
 
     // fetch(`http://localhost:7000/save-group-message`, {
     //   method: "POST",
@@ -91,6 +103,9 @@ const Groupchat = ({ club }) => {
                 {/* Add a timestamp if needed */}
                 <span className="text-gray-500 ml-auto mr-0 text-sm">
                   {new Date(message?.createdAt).toLocaleTimeString([], {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
                     hour: "2-digit",
                     minute: "2-digit",
                     hour12: true,

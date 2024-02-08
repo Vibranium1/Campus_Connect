@@ -30,13 +30,17 @@ const Registerstudent = () => {
                 if (data?.isAdmin) {
                     localStorage.setItem("isAdmin", JSON.stringify({ isAdmin: true }));
                 }
+                if (data?.isSuper) {
+                    // localStorage.setItem("isAdmin", JSON.stringify({ isAdmin: true }));
+                    navigate('/super-admin')
+                }
                 if (data?.user) {
                     localStorage.setItem("user", JSON.stringify({ user: data.user }));
                     toast.success('Signed in Successfully');
                     // navigate('/user-home');
                     setTimeout(() => {
                         navigate('/user-home');
-                    }, 1000);
+                    }, 2100);
                     
                 }
                 if(data?.message) {
@@ -54,7 +58,7 @@ const Registerstudent = () => {
                     {/* <p className="mt-2">LOgin vaiiii</p> */}
                 </div>
                 <div className="p-6 space-y-4">
-                <ToastContainer/>
+                <ToastContainer position="top-right" autoClose={2000} hideProgressBar={false} />
                     <div className="mb-4">
                         <label className="block mb-2 text-sm font-medium text-gray-800">
                             Roll number
