@@ -6,4 +6,4 @@ const clubSch = new mongoose.Schema({
     },
 })
 
-mongoose.model('Club', clubSch);
+module.exports =mongoose.model('Club', clubSch);

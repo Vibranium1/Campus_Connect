@@ -15,7 +15,7 @@ const Registerstudent = () => {
         }));
 
     };
-
+let isSuperAdmin = false;
 
     const handleClick = () => {
         fetch("/signin", {
@@ -31,8 +31,9 @@ const Registerstudent = () => {
                     localStorage.setItem("isAdmin", JSON.stringify({ isAdmin: true }));
                 }
                 if (data?.isSuper) {
-                    // localStorage.setItem("isAdmin", JSON.stringify({ isAdmin: true }));
-                    navigate('/super-admin')
+                    localStorage.setItem("isSuper", JSON.stringify({ isSuper: true }));
+                    // navigate('/super-admin')
+                    // isSuperAdmin =
                 }
                 if (data?.user) {
                     localStorage.setItem("user", JSON.stringify({ user: data.user }));

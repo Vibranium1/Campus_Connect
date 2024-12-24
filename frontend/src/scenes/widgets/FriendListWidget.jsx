@@ -11,14 +11,10 @@ const FriendListWidget = ({ userId }) => {
   const { palette } = useTheme();
   const token = useSelector((state) => state.token);
   
-  const friends = useSelector((state) => (state.user || {}).friends || []);
-  // console.log(friends)
+  const friends = useSelector((state) => (state.user || {})?.friends || []);
 
 
   const getFriends = async () => {
-    // if (!userId) {
-    //   return; // Add a check to ensure userId is defined
-    // }
     const response = await fetch(
       `http://localhost:7000/users/${userId}/friends`,
       {
@@ -35,8 +31,6 @@ const FriendListWidget = ({ userId }) => {
     getFriends();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // console.log("friend",friend)
-  console.log("friends",friends)
   return (
     <WidgetWrapper>
       <Typography

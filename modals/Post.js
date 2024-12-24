@@ -20,7 +20,7 @@ const postSchema = mongoose.Schema(
       of: Boolean,
     },
 
-    
+
     comments: {
       type: [
         {
@@ -28,12 +28,12 @@ const postSchema = mongoose.Schema(
           comment: String,
           name: String,
           picturePath: String,
-          time : String
+          time: String
         },
       ],
-      
+
     },
-    
+
     report: {
       type: Map,
       of: Boolean,
@@ -44,4 +44,4 @@ const postSchema = mongoose.Schema(
 
 const Post = mongoose.model("Post", postSchema);
 
-module.exports=  Post;
+module.exports = Post;

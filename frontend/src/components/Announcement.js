@@ -70,87 +70,87 @@ const Announcement = () => {
   };
   return (
     <>
-    <div className='mainpage p-10 w-5/6 h-auto bg-white mt-10'>
-      <h1 className='text-2xl text-gray-600 font-semibold p-3 '>Blog Announcement</h1>
-      <div className='m-4'>
-        <ReactQuill 
-          className=''
-          value={content}
-          onChange={handleEditorChange}
-          modules={modules}
-          formats={formats}
-          style={{
+      <div className='ml-96   mainpage p-10 h-auto bg-white mt-24'>
+        <h1 className='text-2xl text-gray-600 font-semibold p-3 '>Blog Announcement</h1>
+        <div className='m-4'>
+          <ReactQuill
+            className=''
+            value={content}
+            onChange={handleEditorChange}
+            modules={modules}
+            formats={formats}
+            style={{
               color: '#000', // Set the default text color to black
-          }}
-          theme="snow"
-        />
-      </div>
-      <div className='flex'>
-
-        <div className="mb-4 ml-4">
-          <label className="block mb-2 text-sm font-medium text-gray-800">
-            Select year
-          </label>
-
-          <select
-            name="year"
-            onChange={(e) => setYear(e.target.value)}
-            className="bg-white border text-gray-600 rounded px-3 py-2 outline-none"
-          >
-            <option value="" disabled>Select a  year</option>
-            {years.map((year, i) => (
-              <option className='text-black' key={i}>
-                {year}
-              </option>
-            ))}
-          </select>
+            }}
+            theme="snow"
+          />
         </div>
+        <div className='flex'>
+
+          <div className="mb-4 ml-4">
+            <label className="block mb-2 text-sm font-medium text-gray-800">
+              Select year
+            </label>
+
+            <select
+              name="year"
+              onChange={(e) => setYear(e.target.value)}
+              className="bg-white border text-gray-600 rounded px-3 py-2 outline-none"
+            >
+              <option value="" disabled>Select a  year</option>
+              {years.map((year, i) => (
+                <option className='text-black' key={i}>
+                  {year}
+                </option>
+              ))}
+            </select>
+          </div>
 
 
-        <div className="mb-4 ml-4">
-          <label className="block mb-2 ml-2 text-sm font-medium text-gray-800">
-            Department
-          </label>
+          <div className="mb-4 ml-4">
+            <label className="block mb-2 ml-2 text-sm font-medium text-gray-800">
+              Department
+            </label>
 
-          <select
-            name="department"
-            onChange={(e) => setDepartment(e.target.value)}
-            className="bg-white border rounded text-gray-600 px-3 py-2 outline-none"
-          >
-            <option value="" disabled>Select branch</option>
-            {depts.map((year, i) => (
-              <option key={i}>
-                {year}
-              </option>
-            ))}
-          </select>
-        </div>
+            <select
+              name="department"
+              onChange={(e) => setDepartment(e.target.value)}
+              className="bg-white border rounded text-gray-600 px-3 py-2 outline-none"
+            >
+              <option value="" disabled>Select branch</option>
+              {depts.map((year, i) => (
+                <option key={i}>
+                  {year}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        <div>
-          <label className='text-black font-md ml-4'>
-            Set Expiry Date 
+          <div className=''>
+            <label className='text-black text-sm font-medium block font-md ml-4'>
+              Set Expiry Date
+
+            </label>
             <input
               type="date"
-              // value={selectedDate}
-              // onChange={handleDateChange}
+              min={new Date().toISOString().split('T')[0]} // Set min date to today
               onChange={(e) => setSelectedDate(e.target.value)}
               className='text-black p-1 mt-2 ml-4 border-2 rounded'
             />
-          </label>
+          </div>
+          <div className="text-black pt-8 ml-2">
+
+            For Club Members
+            <input className='' type='checkbox' onChange={() => setPrivateState(!privateState)} />
+          </div>
         </div>
-        <div className="text-black">
-         
-          For Club Members
-           <input className='' type='checkbox' onChange={() => setPrivateState(!privateState)} />
-        </div>
-      </div>
-      <button className='bg-blue-400 p-1 rounded-md text-white font-bold w-min h-min ml-5 shadow-md' onClick={() => {
-        setIsClicked(true);
-        handleSaveClick();
-      }}
-        disabled={isClicked}>Post Announcement</button>
+        <button className='bg-blue-400 p-1 rounded-md text-white font-bold w-min h-min ml-5 shadow-md' onClick={() => {
+          setIsClicked(true);
+          handleSaveClick();
+        }}
+          disabled={isClicked}>Post Announcement</button>
         <ToastContainer position="top-right" autoClose={2000} hideProgressBar={false} />
-        </div>
+      </div>
     </>
   );
 };

@@ -8,15 +8,16 @@ import PostsWidget from "../widgets/PostsWidget";
 import AdvertWidget from "../widgets/AdvertWidget";
 import FriendListWidget from "../widgets/FriendListWidget";
 import { setLogin } from "state";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 const HomePage = () => {
-  const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
+  // const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const dispatch = useDispatch();
+  // const [cnt, setCnt] = useState(0);
+  const isReload = useRef(false);
   // const { _id, picturePath } = useSelector((state) => state.user);
   const userval = JSON.parse(localStorage.getItem('user'));
   const userdata = userval.user;
-  console.log(userdata)
   const mylogin = async () => {
     const loggedInResponse = await fetch("http://localhost:7000/auth/login", {
       method: "POST",
@@ -24,7 +25,7 @@ const HomePage = () => {
       body: JSON.stringify({email: userdata.email, password: userdata.password}),
     });
     const loggedIn = await loggedInResponse.json();
-    // console.log('d', loggedIn)
+    console.log("User :", loggedIn)
     if (loggedIn) {
       dispatch(
         setLogin({
@@ -36,12 +37,15 @@ const HomePage = () => {
   }
   useEffect(() => {
     mylogin();
+    // if(isReload.current === false) {
+    //   window.location.reload()
+    //   isReload.current = true;
+    // }
   }, []);
-  // console.log('uservv',userval)
   const user = useSelector((state) => state.user);
   const userId = user?._id; 
   const { _id, picturePath } = user || {};
-  console.log("from home",user)
+
   return (
     <Box>
       <Navbar />

@@ -14,7 +14,7 @@ const Registerstudent = () => {
     const [registrationData, setRegistrationData] = useState({});
     const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
     const [isClicked, setIsClicked] = useState(false);
-const [selectedImage, setSelectedImage] = useState(null);
+    const [selectedImage, setSelectedImage] = useState(null);
     const [imageName, setImageName] = useState('');
     const handleCheckboxChange = (value) => {
         if (selectedCheckboxes.includes(value)) {
@@ -39,7 +39,7 @@ const [selectedImage, setSelectedImage] = useState(null);
         setSelectedImage(file);
         setImageName(file.name);
     };
-  
+
     // const handleImageChange = (e) => {
     //   const file = e.target.files[0];
     // //   console.log('file',file)
@@ -77,18 +77,14 @@ const [selectedImage, setSelectedImage] = useState(null);
         }));
     }, [selectedCheckboxes])
     // const handleClick = () => {
-     
+
     //     if(!(registrationData?.name && registrationData?.department && registrationData?.year && registrationData?.email && registrationData?.password)) {
     //         toast.error('complete the form');
     //     }console.log(selectedImage)
-        
+
     //     console.log(registrationData)
 
     const handleClick = async () => {
-        if (!(registrationData?.name && registrationData?.department && registrationData?.year && registrationData?.email && registrationData?.password)) {
-            toast.error('Complete the form');
-            return;
-        }
 
         const imageUrl = await handleCloudinaryUpload();
 
@@ -98,7 +94,7 @@ const [selectedImage, setSelectedImage] = useState(null);
             picture: imageUrl,
             picturePath: imageName,
         };
-         console.log(userData)
+        console.log(userData)
         fetch("/register", {
             method: "post",
             headers: {
@@ -183,7 +179,7 @@ const [selectedImage, setSelectedImage] = useState(null);
                                 ))}
                             </select> */}
                             <label className="block mt-6 ml-3  text-sm font-medium text-gray-800">
-                                Club Member 
+                                Club Member
                             </label>
 
                             <div className=" flex-col"> {member.map((club) => {
@@ -191,7 +187,7 @@ const [selectedImage, setSelectedImage] = useState(null);
                                     return (
                                         <div className="ml-4">
                                             <input
-                                               type="checkbox"
+                                                type="checkbox"
                                                 value={club}
                                                 onChange={() => handleCheckboxChange(club)}
                                             />
@@ -238,14 +234,14 @@ const [selectedImage, setSelectedImage] = useState(null);
                         img:
                         <input type="file" onChange={handleImageChange} />
                     </div> */}
-                        
-                     <div className="mb-4">
-                     <label className="block mb-2 text-sm font-medium text-gray-800">
+
+                    <div className="mb-4">
+                        <label className="block mb-2 text-sm font-medium text-gray-800">
                             Profile Picture
                         </label>
-                <input type="file" onChange={handleImageChange} />
-        
-                     </div>
+                        <input type="file" onChange={handleImageChange} />
+
+                    </div>
 
                     <div className="mb-4">
                         <label className="block mb-2 text-sm font-medium text-gray-800">

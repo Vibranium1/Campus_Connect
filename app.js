@@ -1,20 +1,22 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const cors = require('cors');
-const multer = require ('multer');
+const multer = require('multer');
 const socket = require("socket.io");
 const app = express()
 require('./modals/user.js');
 require('./modals/announcement.js');
 require('./modals/admin.js');
 require('./modals/chat.js');
-require('./modals/Club.js');
+require('./modals/Club.js')
+// require('./modals/Club.js');
+// import { Server } from "socket.io";
 // import bodyParser from "body-parser";
-const bodyParser = require('body-parser') 
+const bodyParser = require('body-parser')
 // import multer from "multer";
-const dotenv= require('dotenv')
+const dotenv = require('dotenv')
 // import helmet from "helmet";
-const helmet = require ('helmet')
+const helmet = require('helmet')
 const morgan = require('morgan')
 // import morgan from "morgan";
 // import path from "path";
@@ -22,23 +24,25 @@ const path = require('path')
 // import { fileURLToPath } from "url";
 const fileURLToPath = require('url')
 // import authRoutes from "./routes/auth";
-const authRoutes = require ("./routes/auth")
+const authRoutes = require("./routes/auth")
 // import userRoutes from "./routes/users.js";
-const userRoutes = require ("./routes/user.js")
+const userRoutes = require("./routes/user.js")
 const postRoutes = require("./routes/posts")
 // import postRoutes from "./routes/posts.js";
 // import { register } from "./controllers/auth";
-const {register} = require("./controllers/auth")
+const { register } = require("./controllers/auth")
 // import { createPost } from "./controllers/posts.js";
-const {createPost} = require ("./controllers/posts.js")
+const { createPost } = require("./controllers/posts.js")
 // import { verifyToken } from "./middleware/auth.js";
-const verifyToken = require ("./middleware/auth.js")
+const verifyToken = require("./middleware/auth.js")
 // import User from "./modals/user.js";
 const User = require("./modals/user")
 const Post = require("./modals/Post.js")
+const PMsg = require("./modals/pmsg.js")
+const Club = require("./modals/Club.js")
 // import Post from "./modals/Post.js";
 // import { users, posts } from "./data/index.js";
-const  { users, posts } = require("./data/index.js")
+const { users, posts } = require("./data/index.js")
 const cloudinary = require('cloudinary').v2;
 
 
@@ -53,8 +57,9 @@ app.use(express.json());
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
-app.use(bodyParser.json({ limit: "30mb", extended: true }));
-app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
+app.use(bodyParser.json({ limit: '70mb' }));
+app.use(bodyParser.urlencoded({ limit: '70mb', extended: true }));
+
 app.use(cors());
 // app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 
@@ -62,7 +67,7 @@ app.use(cors());
 app.get("/all-group-messages", async (req, res) => {
   const { club } = req.query;
   try {
-    const messages = await Chat.find({club}).sort({ createdAt: 1 });
+    const messages = await Chat.find({ club }).sort({ createdAt: 1 });
     res.json(messages);
   } catch (error) {
     console.error("Error fetching messages:", error);
@@ -70,40 +75,92 @@ app.get("/all-group-messages", async (req, res) => {
   }
 });
 
-app.post("/posts",   createPost);
 
-app.post('/register',  async (req, res) => {
+
+app.delete('/clubs/:id', async (req, res) => {
   try {
-      console.log('data is', req.body);
-      const newUser = await new User({
-          ...req.body,
-      });
-      await newUser.save();
-      res.json({ message: 'registered successfully' });
+    const club = await Club.findByIdAndDelete(req.params.id);
+    if (!club) {
+      return res.status(404).json({ message: 'Club not found' });
+    }
+    res.status(200).json({ message: 'Club deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+});
+
+app.get('/getallclubs', async (req,res) => {
+  console.log('ara innnnnnnnnn')
+  const clubss =  await Club.find({});
+  console.log('sdcard', clubss)
+  return res.json(clubss)
+})
+
+
+
+app.post('/setchats', async (req, res) => {
+  const newMsg = await new PMsg({
+    ...req.body,
+  });
+  await newMsg.save();
+  const {sender, receiver} = req.body;
+  const messages = await PMsg.find({
+    $or: [
+      { sender: sender, receiver: receiver },
+      { sender: receiver, receiver: sender }
+    ]
+  });
+  res.json(messages);
+});
+
+app.get('/getmsgs', async (req, res) => {
+  const {sender, receiver} = req.query;
+  const messages = await PMsg.find({
+    $or: [
+      { sender, receiver },
+      { sender: receiver, receiver: sender }
+    ]
+  });
+  res.json(messages);
+});
+
+app.get('/allusers', async (req, res) => {
+  const users = await User.find({})
+  return res.json(users);
+})
+app.post("/posts", createPost);
+
+app.post('/register', async (req, res) => {
+  try {
+    const newUser = await new User({
+      ...req.body,
+    });
+    await newUser.save();
+    res.json({ message: 'registered successfully' });
   }
   catch (e) {
-      console.log('error occured', e);
+    console.log('error occured', e);
   }
 });
 
 app.get('/searching/:enterName', (req, res) => {
-  console.log(req.params)
   // if(!req.params.enterName) {
   //     return res.status(422).json();
   // }
   // console.log('bhaihhhh')
-  let userPattern = new RegExp("^" + req.params.enterName) 
+  let userPattern = new RegExp("^" + req.params.enterName)
   User.find({ name: { $regex: userPattern } })
-      .select("_id name")
-      .then(user => {
-          // console.log(user)
-          if(user.length === 0) {
-              return res.status(400).json(user);
-          }
-          return res.status(200).json(user);
-      }).catch(err => {
-         console.log(err)
-      })
+    .select("_id name")
+    .then(user => {
+      // console.log(user)
+      if (user.length === 0) {
+        return res.status(400).json(user);
+      }
+      return res.status(200).json(user);
+    }).catch(err => {
+      console.log(err)
+    })
 
 })
 
@@ -128,7 +185,7 @@ const Chat = mongoose.model('Chat')
 
 // Create a route to handle storing content
 // app.post('/api/blog', async(req, res) => {
-    
+
 //   const { content } = req.body;
 //     console.log(content)
 //   const newBlogPost = new BlogPost({ content });
@@ -152,10 +209,10 @@ app.use(require('./routes/messagecontroller'))
 
 
 
-const server = app.listen(7000,  () => { 
+const server = app.listen(7000, () => {
   console.log('server is running on', 7000);
-//   User.insertMany(users);
-// Post.insertMany(posts);
+  //   User.insertMany(users);
+  // Post.insertMany(posts);
 })
 const io = socket(server, {
   cors: {
@@ -164,9 +221,8 @@ const io = socket(server, {
   },
 });
 io.on("connection", (socket) => {
-  socket.on("message", ({message, senderId, senderName, club}) => {
+  socket.on("message", ({ message, senderId, senderName, club }) => {
     // console.log('messaging', {message, senderId, senderName})
-    console.log('msg me'. club)
     const newMsg = new Chat({
       message,
       senderId,
@@ -174,7 +230,7 @@ io.on("connection", (socket) => {
       club,
     });
     newMsg.save();
-    io.emit("message", {message, senderId, senderName});
+    io.emit("message", { message, senderId, senderName });
   });
 
   // socket.on("add-user", (userId) => {
@@ -202,4 +258,15 @@ io.on("connection", (socket) => {
   //     }
   //   });
   // });
+
+
+  socket.on("msgsolo", (messageData) => {
+    const { sender, receiver, message } = messageData;
+    const messageToSend = {
+      sender,
+      receiver,
+      message,
+    };
+    io.emit("msgsolo", messageToSend);
+  });
 });
